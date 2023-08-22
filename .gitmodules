@@ -13,3 +13,6 @@
 [submodule "iter-identify_first_last"]
 	path = iter-identify_first_last
 	url = https://github.com/A1-Triard/iter-identify_first_last.git
+[submodule "utf8-chars"]
+	path = utf8-chars
+	url = https://github.com/A1-Triard/utf8-chars.git
