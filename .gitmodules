@@ -7,3 +7,6 @@
 [submodule "enum-derive-2018"]
 	path = enum-derive-2018
 	url = https://github.com/A1-Triard/enum-derive-2018.git
+[submodule "int-vec-2d"]
+	path = int-vec-2d
+	url = https://github.com/A1-Triard/int-vec-2d.git
