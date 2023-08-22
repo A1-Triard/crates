@@ -1,4 +1,4 @@
-name: CI (macro-attr-2018)
+name: CI (macro-attr-2018) 
 
 on:
   push:
