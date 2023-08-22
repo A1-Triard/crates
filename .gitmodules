@@ -16,3 +16,6 @@
 [submodule "utf8-chars"]
 	path = utf8-chars
 	url = https://github.com/A1-Triard/utf8-chars.git
+[submodule "pc-ints"]
+	path = pc-ints
+	url = https://github.com/A1-Triard/pc-ints.git

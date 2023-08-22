@@ -1,0 +1,69 @@
+name: CI (pc-ints)
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+  - cron: '0 0 * * *'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  main:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+    - run: "rustup component add clippy"
+    - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
+    - run: "cargo build --verbose"
+      working-directory: pc-ints
+    - run: "cargo doc --verbose"
+      working-directory: pc-ints
+    - run: "cargo build --verbose --release"
+      working-directory: pc-ints
+    - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
+      working-directory: pc-ints
+    - run: "cargo clippy --verbose"
+      working-directory: pc-ints
+  dos:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: ubuntu-latest
+          tool: x86_64-unknown-linux-gnu
+        - os: windows-latest
+          tool: x86_64-pc-windows-msvc
+        - os: macOS-latest
+          tool: x86_64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+    - run: "rustup component add clippy"
+    - run: "rustup component add rust-src --toolchain nightly-${{ matrix.tool }}"
+    - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
+    - run: "cargo +nightly build --verbose --target=i386-pc-dos-msvc.json -Z build-std=core,panic_abort"
+      working-directory: pc-ints
+    - run: "cargo +nightly doc --verbose --target=i386-pc-dos-msvc.json -Z build-std=core,panic_abort"
+      working-directory: pc-ints
+    - run: "cargo +nightly build --verbose --release --target=i386-pc-dos-msvc.json -Z build-std=core,panic_abort"
+      working-directory: pc-ints
+    - run: "cargo +nightly clippy --verbose --target=i386-pc-dos-msvc.json -Z build-std=core,panic_abort"
+      working-directory: pc-ints
