@@ -4,3 +4,6 @@
 [submodule "dyn-fmt"]
 	path = dyn-fmt
 	url = https://github.com/A1-Triard/dyn-fmt.git
+[submodule "enum-derive-2018"]
+	path = enum-derive-2018
+	url = https://github.com/A1-Triard/enum-derive-2018.git
