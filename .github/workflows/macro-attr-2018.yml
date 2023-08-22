@@ -26,6 +26,8 @@ jobs:
         override: true
     - run: "rustup component add clippy"
     - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
     - run: "cargo build --verbose"
       working-directory: macro-attr-2018
     - run: "cargo test --verbose --tests"
@@ -58,6 +60,8 @@ jobs:
         toolchain: nightly
         override: true
     - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
     - run: "rustup component add rust-src --toolchain nightly-${{ matrix.triple }}"
     - run: "cargo +nightly build --verbose -Z build-std=core,panic_abort --target ${{ matrix.triple }} --release"
       working-directory: macro-attr-2018/ensure_no_std
