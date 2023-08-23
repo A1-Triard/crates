@@ -19,3 +19,6 @@
 [submodule "pc-ints"]
 	path = pc-ints
 	url = https://github.com/A1-Triard/pc-ints.git
+[submodule "newtype-derive-2018"]
+	path = newtype-derive-2018
+	url = https://github.com/A1-Triard/newtype-derive-2018.git
