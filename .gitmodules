@@ -25,3 +25,6 @@
 [submodule "exit-no-std"]
 	path = exit-no-std
 	url = https://github.com/A1-Triard/exit-no-std.git
+[submodule "pc-timer"]
+	path = pc-timer
+	url = https://github.com/A1-Triard/pc-timer.git
