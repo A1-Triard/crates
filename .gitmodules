@@ -22,3 +22,6 @@
 [submodule "newtype-derive-2018"]
 	path = newtype-derive-2018
 	url = https://github.com/A1-Triard/newtype-derive-2018.git
+[submodule "exit-no-std"]
+	path = exit-no-std
+	url = https://github.com/A1-Triard/exit-no-std.git
