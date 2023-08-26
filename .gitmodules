@@ -28,3 +28,6 @@
 [submodule "pc-timer"]
 	path = pc-timer
 	url = https://github.com/A1-Triard/pc-timer.git
+[submodule "dos-cp"]
+	path = dos-cp
+	url = https://github.com/A1-Triard/dos-cp.git
