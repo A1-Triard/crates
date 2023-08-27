@@ -79,7 +79,7 @@ jobs:
     - run: "git submodule update"
     - run: "cargo +nightly build --verbose -Z build-std=core,panic_abort --target ${{ matrix.triple }} --release"
       working-directory: dos-cp/ensure_no_std
-    - run: "./ensure_no_std/target/${{ matrix.triple }}/release/ensure_no_std"
+    - run: "./dos-cp/ensure_no_std/target/${{ matrix.triple }}/release/ensure_no_std"
   example:
     strategy:
       fail-fast: false
