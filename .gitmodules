@@ -34,3 +34,6 @@
 [submodule "panic-no-std"]
 	path = panic-no-std
 	url = https://github.com/A1-Triard/panic-no-std.git
+[submodule "composable-allocators"]
+	path = composable-allocators
+	url = https://github.com/A1-Triard/composable-allocators.git
