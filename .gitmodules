@@ -37,3 +37,6 @@
 [submodule "composable-allocators"]
 	path = composable-allocators
 	url = https://github.com/A1-Triard/composable-allocators.git
+[submodule "arraybox"]
+	path = arraybox
+	url = https://github.com/A1-Triard/arraybox.git
