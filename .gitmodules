@@ -40,3 +40,6 @@
 [submodule "arraybox"]
 	path = arraybox
 	url = https://github.com/A1-Triard/arraybox.git
+[submodule "generics"]
+	path = generics
+	url = https://github.com/A1-Triard/generics.git
