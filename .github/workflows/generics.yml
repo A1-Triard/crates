@@ -38,7 +38,7 @@ jobs:
       working-directory: generics
     - run: "cargo build --verbose --release"
       working-directory: generics
-    - run: "cargo outdated --verbose --aggresssive --root-deps-only --exit-code 1"
+    - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
       working-directory: generics
     - run: "cargo clippy --verbose"
       working-directory: generics
