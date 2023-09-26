@@ -43,3 +43,6 @@
 [submodule "generics"]
 	path = generics
 	url = https://github.com/A1-Triard/generics.git
+[submodule "timer-no-std"]
+	path = timer-no-std
+	url = https://github.com/A1-Triard/timer-no-std.git
