@@ -12,6 +12,42 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  traits:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        rust: ["1.44", stable, beta, nightly]
+        features: ["", "--features=nightly"]
+        exclude:
+        - rust: "1.44"
+          features: "--features=nightly"
+        - rust: stable
+          features: "--features=nightly"
+        - rust: beta
+          features: "--features=nightly"
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ matrix.rust }}
+        override: true
+    - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
+    - name: detach from workspace
+      uses: JesseTG/rm@v1.0.2
+      with:
+        path: Cargo.toml
+      working-directory: components-arena
+    - run: "cargo build --verbose --no-default-features ${{ matrix.features }}"
+      working-directory: components-arena/traits
+    - run: "cargo test --verbose --doc --no-default-features ${{ matrix.features }}"
+      working-directory: components-arena/traits
+    - run: "cargo doc --verbose --no-default-features ${{ matrix.features }}"
+      working-directory: components-arena/traits
+    - run: "cargo build --verbose --release --no-default-features ${{ matrix.features }}"
+      working-directory: components-arena/traits
   main:
     strategy:
       fail-fast: false
