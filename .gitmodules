@@ -46,3 +46,6 @@
 [submodule "timer-no-std"]
 	path = timer-no-std
 	url = https://github.com/A1-Triard/timer-no-std.git
+[submodule "components-arena"]
+	path = components-arena
+	url = https://github.com/A1-Triard/components-arena.git
