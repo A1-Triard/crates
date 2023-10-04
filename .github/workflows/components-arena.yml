@@ -38,8 +38,7 @@ jobs:
     - name: detach from workspace
       uses: JesseTG/rm@v1.0.2
       with:
-        path: Cargo.toml
-      working-directory: components-arena
+        path: components-arena/Cargo.toml
     - run: "cargo build --verbose --no-default-features ${{ matrix.features }}"
       working-directory: components-arena/traits
     - run: "cargo test --verbose --doc --no-default-features ${{ matrix.features }}"
