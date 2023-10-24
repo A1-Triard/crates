@@ -1,0 +1,100 @@
+name: CI (errno-sys)
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+  - cron: '0 0 * * *'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  main:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+        rust: ["1.71", stable, beta, nightly]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ matrix.rust }}
+        override: true
+    - run: "rustup component add clippy"
+    - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
+    - run: "cargo build --verbose"
+      working-directory: errno-sys
+    - run: "cargo doc --verbose"
+      working-directory: errno-sys
+    - run: "cargo build --verbose --release"
+      working-directory: errno-sys
+    - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
+      working-directory: errno-sys
+    - run: "cargo clippy --verbose"
+      working-directory: errno-sys
+  ensure_no_std:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: ubuntu-latest
+          triple: x86_64-unknown-linux-gnu
+        - os: macOS-latest
+          triple: x86_64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+    - run: "rustup component add rust-src --toolchain nightly-${{ matrix.triple }}"
+    - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
+    - run: "cargo +nightly build --verbose -Z build-std=core,panic_abort --target ${{ matrix.triple }} --release"
+      working-directory: errno-sys/ensure_no_std
+    - run: "./errno-sys/ensure_no_std/target/${{ matrix.triple }}/release/ensure_no_std"
+  crosscompilation:
+    strategy:
+      fail-fast: false
+      matrix:
+        rust: ["1.71", stable, beta, nightly]
+        os: [ubuntu-latest, macOS-latest]
+        target: [x86_64-unknown-linux-gnu, i686-unknown-linux-gnu]
+        exclude:
+        - os: ubuntu-latest
+          target: x86_64-unknown-linux-gnu
+        - os: macOS-latest
+          target: x86_64-apple-darwin
+        - os: macOS-latest
+          target: i686-unknown-linux-gnu
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ matrix.rust }}
+        override: true
+    - run: "rustup target add ${{ matrix.target }}"
+    - run: "sudo apt-get install -y gcc-multilib"
+      if: "${{ matrix.os == 'ubuntu-latest' }}"
+    - run: "brew tap SergioBenitez/osxct"
+      if: "${{ matrix.os == 'macOS-latest' }}"
+    - run: "brew install x86_64-unknown-linux-gnu"
+      if: "${{ matrix.os == 'macOS-latest' }}"
+    - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
+    - run: "cargo build --verbose --target=${{ matrix.target }}"
+      env:
+        CC_x86_64_unknown_linux_gnu: x86_64-unknown-linux-gnu-gcc
+      working-directory: errno-sys
+    - run: "cargo build --verbose --target=${{ matrix.target }} --release"
+      env:
+        CC_x86_64_unknown_linux_gnu: x86_64-unknown-linux-gnu-gcc
+      working-directory: errno-sys

@@ -49,3 +49,9 @@
 [submodule "components-arena"]
 	path = components-arena
 	url = https://github.com/A1-Triard/components-arena.git
+[submodule "errno-no-std"]
+	path = errno-no-std
+	url = https://github.com/A1-Triard/errno-no-std.git
+[submodule "errno-sys"]
+	path = errno-sys
+	url = https://github.com/A1-Triard/errno-sys.git
