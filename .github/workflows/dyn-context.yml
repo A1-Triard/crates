@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+  - cron: '0 0 * * *'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  main:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        rust: ["1.71", stable, beta, nightly]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ matrix.rust }}
+        override: true
+    - run: "rustup component add clippy"
+    - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
+    - run: "cargo build --verbose --workspace"
+      working-directory: dyn-context
+    - run: "cargo test --verbose --workspace --tests"
+      working-directory: dyn-context
+    - run: "cargo test --verbose --workspace --doc"
+      working-directory: dyn-context
+    - run: "cargo doc --verbose --workspace"
+      working-directory: dyn-context
+    - name: "cargo test --docsrs"
+      run: "cargo test --verbose --workspace --doc"
+      env:
+        RUSTFLAGS: "--cfg docsrs"
+        RUSTDOCFLAGS: "--cfg docsrs"
+      working-directory: dyn-context
+    - name: "cargo docsrs"
+      run: "cargo doc --verbose --workspace"
+      env:
+        RUSTFLAGS: "--cfg docsrs"
+        RUSTDOCFLAGS: "--cfg docsrs"
+      working-directory: dyn-context
+    - run: "cargo build --verbose --workspace --release"
+      working-directory: dyn-context
+    - run: "cargo outdated --verbose --workspace --root-deps-only --exit-code 1"
+      working-directory: dyn-context
+    - run: "cargo clippy --verbose --workspace"
+      working-directory: dyn-context
+  ensure_no_std:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: ubuntu-latest
+          triple: x86_64-unknown-linux-gnu
+        - os: windows-latest
+          triple: x86_64-pc-windows-msvc
+        - os: macOS-latest
+          triple: x86_64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+    - run: "rustup component add rust-src --toolchain nightly-${{ matrix.triple }}"
+    - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
+    - run: "cargo +nightly build --verbose -Z build-std=core,panic_abort --target ${{ matrix.triple }} --release"
+      working-directory: dyn-context/ensure_no_std
+    - run: "./dyn-context/ensure_no_std/target/${{ matrix.triple }}/release/ensure_no_std"

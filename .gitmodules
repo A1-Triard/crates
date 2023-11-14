@@ -55,3 +55,6 @@
 [submodule "errno-sys"]
 	path = errno-sys
 	url = https://github.com/A1-Triard/errno-sys.git
+[submodule "dyn-context"]
+	path = dyn-context
+	url = https://github.com/A1-Triard/dyn-context.git
