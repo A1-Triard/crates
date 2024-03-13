@@ -58,3 +58,6 @@
 [submodule "dyn-context"]
 	path = dyn-context
 	url = https://github.com/A1-Triard/dyn-context.git
+[submodule "phantom-type"]
+	path = phantom-type
+	url = https://github.com/A1-Triard/phantom-type.git
