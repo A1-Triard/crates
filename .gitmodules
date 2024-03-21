@@ -61,3 +61,6 @@
 [submodule "phantom-type"]
 	path = phantom-type
 	url = https://github.com/A1-Triard/phantom-type.git
+[submodule "dynamic-cast"]
+	path = dynamic-cast
+	url = https://github.com/A1-Triard/dynamic-cast.git
