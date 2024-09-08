@@ -47,8 +47,6 @@ jobs:
           tool: x86_64-unknown-linux-gnu
         - os: windows-latest
           tool: x86_64-pc-windows-msvc
-        - os: macOS-latest
-          tool: x86_64-apple-darwin
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions-rs/toolchain@v1
