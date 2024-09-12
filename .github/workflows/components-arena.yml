@@ -18,14 +18,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         rust: ["1.44", stable, beta, nightly]
-        features: ["", "--features=nightly"]
-        exclude:
-        - rust: "1.44"
-          features: "--features=nightly"
-        - rust: stable
-          features: "--features=nightly"
-        - rust: beta
-          features: "--features=nightly"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions-rs/toolchain@v1
@@ -45,13 +37,13 @@ jobs:
       with:
         path: components-arena\Cargo.toml
       if: ${{ matrix.os == 'windows-latest' }}
-    - run: "cargo build --verbose --no-default-features ${{ matrix.features }}"
+    - run: "cargo build --verbose"
       working-directory: components-arena/traits
-    - run: "cargo test --verbose --doc --no-default-features ${{ matrix.features }}"
+    - run: "cargo test --verbose --doc"
       working-directory: components-arena/traits
-    - run: "cargo doc --verbose --no-default-features ${{ matrix.features }}"
+    - run: "cargo doc --verbose"
       working-directory: components-arena/traits
-    - run: "cargo build --verbose --release --no-default-features ${{ matrix.features }}"
+    - run: "cargo build --verbose --release"
       working-directory: components-arena/traits
   main:
     strategy:
