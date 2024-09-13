@@ -67,3 +67,6 @@
 [submodule "panicking"]
 	path = panicking
 	url = https://github.com/A1-Triard/panicking.git
+[submodule "print-no-std"]
+	path = print-no-std
+	url = https://github.com/A1-Triard/print-no-std.git
