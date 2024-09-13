@@ -45,6 +45,8 @@ jobs:
         override: true
     - run: "rustup component add clippy"
     - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
     - run: "cargo build --verbose --no-default-features ${{ matrix.features }}"
       working-directory: panicking
     - run: "cargo test --verbose --tests --no-default-features ${{ matrix.features }}"
@@ -78,6 +80,8 @@ jobs:
         override: true
     - run: "rustup component add rust-src --toolchain nightly-${{ matrix.triple }}"
     - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
     - run: "cargo +nightly build --verbose -Z build-std=core,panic_abort --target ${{ matrix.triple }} --release"
       working-directory: panicking/ensure_no_std
     - run: "./panicking/ensure_no_std/target/${{ matrix.triple }}/release/ensure_no_std"
