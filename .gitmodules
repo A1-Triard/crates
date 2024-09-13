@@ -64,3 +64,6 @@
 [submodule "dynamic-cast"]
 	path = dynamic-cast
 	url = https://github.com/A1-Triard/dynamic-cast.git
+[submodule "panicking"]
+	path = panicking
+	url = https://github.com/A1-Triard/panicking.git
