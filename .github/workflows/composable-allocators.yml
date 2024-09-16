@@ -17,7 +17,6 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        features: ["", "--features=global", "--features=logging", "--features=logging,global"]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions-rs/toolchain@v1
@@ -28,19 +27,44 @@ jobs:
     - uses: actions/checkout@v2
     - run: "git submodule init"
     - run: "git submodule update"
-    - run: "cargo build --verbose --no-default-features ${{ matrix.features }}"
+    - run: "cargo build --verbose"
       working-directory: composable-allocators
-    - run: "cargo test --verbose --tests --no-default-features ${{ matrix.features }}"
+    - run: "cargo test --verbose --tests"
       working-directory: composable-allocators
-    - run: "cargo test --verbose --doc --no-default-features ${{ matrix.features }}"
+    - run: "cargo test --verbose --doc"
       working-directory: composable-allocators
-    - run: "cargo doc --verbose --no-default-features ${{ matrix.features }}"
+    - run: "cargo doc --verbose"
       working-directory: composable-allocators
-    - run: "cargo build --verbose --release --no-default-features ${{ matrix.features }}"
+    - run: "cargo build --verbose --release"
       working-directory: composable-allocators
-    - run: "cargo outdated --verbose --root-deps-only --exit-code 1 ${{ matrix.features }}"
+    - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
       working-directory: composable-allocators
-    - run: "cargo clippy --verbose --no-default-features ${{ matrix.features }}"
+    - run: "cargo clippy --verbose"
+      working-directory: composable-allocators
+  logging:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+    - run: "rustup component add clippy"
+    - uses: actions/checkout@v2
+    - run: "git submodule init"
+    - run: "git submodule update"
+    - run: "cargo build --verbose --features=logging"
+      working-directory: composable-allocators
+    - run: "cargo doc --verbose --features=logging"
+      working-directory: composable-allocators
+    - run: "cargo build --verbose --release --features=logging"
+      working-directory: composable-allocators
+    - run: "cargo outdated --verbose --root-deps-only --exit-code 1 --features=logging"
+      working-directory: composable-allocators
+    - run: "cargo clippy --verbose --features=logging"
       working-directory: composable-allocators
   ensure_no_std:
     strategy:
