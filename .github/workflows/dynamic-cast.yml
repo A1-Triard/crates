@@ -37,6 +37,16 @@ jobs:
       working-directory: dynamic-cast
     - run: "cargo build --verbose --release"
       working-directory: dynamic-cast
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: dynamic-cast/Cargo.lock
+      if: "${{ matrix.os == 'ubuntu-latest' }}"
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: dynamic-cast\Cargo.lock
+      if: "${{ matrix.os == 'windows-latest' }}"
     - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
       working-directory: dynamic-cast
     - run: "cargo clippy --verbose"
