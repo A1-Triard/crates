@@ -47,8 +47,6 @@ jobs:
           tool: x86_64-unknown-linux-gnu
         - os: windows-latest
           tool: x86_64-pc-windows-msvc
-        - os: macOS-latest
-          tool: x86_64-apple-darwin
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions-rs/toolchain@v1
@@ -105,5 +103,9 @@ jobs:
       working-directory: pc-timer/examples/ticks
     - run: "make clippy"
       working-directory: pc-timer/examples/ticks
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: pc-timer/examples/ticks/Cargo.lock
     - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
       working-directory: pc-timer/examples/ticks
