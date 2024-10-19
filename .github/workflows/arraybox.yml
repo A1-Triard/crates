@@ -40,8 +40,13 @@ jobs:
     - name: remove Cargo.lock
       uses: JesseTG/rm@v1.0.3
       with:
-        path: Cargo.lock
-      working-directory: arraybox
+        path: arraybox/Cargo.lock
+      if: "${{ matrix.os == 'ubuntu-latest' }}"
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: arraybox\Cargo.lock
+      if: "${{ matrix.os == 'windows-latest' }}"
     - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
       working-directory: arraybox
     - run: "cargo clippy --verbose"
