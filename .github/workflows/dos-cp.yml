@@ -102,5 +102,9 @@ jobs:
       working-directory: dos-cp/examples/hello
     - run: "make clippy"
       working-directory: dos-cp/examples/hello
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: dos-cp/examples/hello/Cargo.lock
     - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
       working-directory: dos-cp/examples/hello
