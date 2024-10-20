@@ -42,6 +42,16 @@ jobs:
       working-directory: int-vec-2d
     - run: "cargo build --verbose --release"
       working-directory: int-vec-2d
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: int-vec-2d/Cargo.lock
+      if: "${{ matrix.os == 'ubuntu-latest' }}"
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: int-vec-2d\Cargo.lock
+      if: "${{ matrix.os == 'windows-latest' }}"
     - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
       working-directory: int-vec-2d
     - run: "cargo clippy --verbose"
