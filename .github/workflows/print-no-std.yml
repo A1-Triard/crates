@@ -118,6 +118,16 @@ jobs:
       working-directory: print-no-std/examples/hello_world
     - run: "make clippy"
       working-directory: print-no-std/examples/hello_world
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: print-no-std/examples/hello_world/Cargo.lock
+      if: "${{ matrix.os == 'ubuntu-latest' }}"
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: print-no-std\examples\hello_world\Cargo.lock
+      if: "${{ matrix.os == 'windows-latest' }}"
     - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
       working-directory: print-no-std/examples/hello_world
   dos_example:
@@ -157,5 +167,9 @@ jobs:
       working-directory: print-no-std/examples/hello_world
     - run: "make clippy"
       working-directory: print-no-std/examples/hello_world
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: print-no-std/examples/hello_world/Cargo.lock
     - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
       working-directory: print-no-std/examples/hello_world
