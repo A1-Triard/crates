@@ -37,6 +37,16 @@ jobs:
       working-directory: composable-allocators
     - run: "cargo build --verbose --release"
       working-directory: composable-allocators
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: composable-allocators/Cargo.lock
+      if: "${{ matrix.os == 'ubuntu-latest' }}"
+    - name: remove Cargo.lock
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: composable-allocators\Cargo.lock
+      if: "${{ matrix.os == 'windows-latest' }}"
     - run: "cargo outdated --verbose --root-deps-only --exit-code 1"
       working-directory: composable-allocators
     - run: "cargo clippy --verbose"
